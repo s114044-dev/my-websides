@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>華語流行音樂時光機</title>
+    <style>
+        :root {
+            --primary-color: #ff4757;
+            --secondary-color: #2f3542;
+            --bg-color: #121212;
+            --text-color: #f1f2f6;
+            --accent-color: #eccc68;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 頂部橫幅 */
+        header {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1514525253361-bee8718a74a2?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            color: var(--accent-color);
+        }
+
+        .scroll-down {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            animation: bounce 2s infinite;
+            opacity: 0.8;
+        }
+
+        /* 內容區塊 */
+        section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .era-intro {
+            background: rgba(47, 53, 66, 0.6);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(5px);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            margin: 10px auto;
+        }
+
+        /* 歌手網格 */
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .artist-card {
+            background: #1e1e1e;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .artist-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4);
+        }
+
+        .img-container {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .artist-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .artist-info {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .artist-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        /* 彈出視窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background-color: #1e1e1e;
+            margin: 5vh auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 40px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 25px 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .bio-text {
+            font-size: 1.1rem;
+            color: #ddd;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>華語流行音樂誌</h1>
+        <p>重溫那些觸動靈魂的聲音</p>
+        <div class="scroll-down">滑動探索歌手 ↓</div>
+    </header>
+
+    <section>
+        <div class="era-intro">
+            <h2>流行年代回顧</h2>
+            <p>從 90 年代的搖滾靈魂到千禧年的 R&B 革命，華語流行音樂紀錄了不同時代的文化縮影。每一位歌手都用自己的風格，定義了一個時代的青春。</p>
+        </div>
+
+        <div class="artist-grid" id="artistGrid"></div>
+    </section>
+
+    <div id="artistModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalName"></h2>
+            <div id="videoArea" class="video-container"></div>
+            <p id="modalBio" class="bio-text"></p>
+        </div>
+    </div>
+
+    <script>
+        const artists = [
+            {
+                name: "伍佰",
+                img: "https://cc-image-resizer.cwg.tw/resize/uri/https%3A%2F%2Fstorage.googleapis.com%2Fwww-cheers-com-tw%2Fckeditor%2F202004%2Fckeditor-5e9d414516d29.jpg/?format=webp", 
+                bio: "1992年出道，以《浪人情歌》、《挪威的森林》等作品開創台式搖滾風潮。他的音樂風格充滿詩意與草根性，被譽為華語樂壇的「現場之王」。",
+                songId: "gPpZJlE0Ca8" 
+            },
+            {
+                name: "陶喆",
+                img: "https://cdn-cw1.cw.com.tw/images/article/201802/article-5a91409707b98.JPG",
+                bio: "1997年出道，將純正的 R&B 風格帶入華語音樂，被稱為「R&B 教父」。他的音樂編曲精緻，對於後進創作歌手影響深遠。",
+                songId: "3L3Me4JXVqE"
+            },
+            {
+                name: "周杰倫",
+                img: "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1xfq8G.img?w=534&h=351&m=6&x=287&y=130&s=207&d=207",
+                bio: "2000年以同名專輯出道，以獨特的曲風、鋼琴底蘊結合饒舌與中國風，統治了 21 世紀頭十年的華語樂壇。",
+                songId: "YJfHuATJYsQ"
+            },
+            {
+                name: "蔡依林",
+                img: "https://s.yimg.com/ny/api/res/1.2/uvfUF9wPZi967UknycyZ_Q--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MDtjZj13ZWJw/https://media.zenfs.com/zh-tw/nownews.com/a3cbe4c4b0a1e042861d9cdcb234d9c7",
+                bio: "1999年出道，從少男殺手到地才天后，她不斷挑戰自我，在舞曲與視覺表現上達到國際水準，成為當代流行指標。",
+                songId: "_Y_mlCbfn_Y"
+            },
+            {
+                name: "A-Lin",
+                img: "https://cdn2.ettoday.net/images/5153/d5153012.jpg",
+                bio: "2006年出道，擁有天生好歌喉，被譽為「天生歌姬」。她的嗓音極具穿透力，是各大頒獎典禮與演出活動的實力保障。",
+                songId: "BRcudpJzy1I"
+            },
+            {
+                name: "盧廣仲",
+                img: "https://img4.365shop.com.tw/store78/upload/2019Jun/jpg/2019061211152071_2.jpg",
+                bio: "2008年出道，以熱愛早餐與獨特的創作視角聞名。他的音樂充滿正向能量與幽默感，曾創下同時獲得金曲獎與金馬獎的佳績。",
+                songId: "bJ61ijAVT4w"
+            }
+        ];
+
+        const artistGrid = document.getElementById('artistGrid');
+        artists.forEach((artist, index) => {
+            const card = document.createElement('div');
+            card.className = 'artist-card';
+            card.innerHTML = `
+                <div class="img-container">
+                    <img src="${artist.img}" alt="${artist.name}" onerror="this.src='https://via.placeholder.com/400x300?text=圖片載入中'">
+                </div>
+                <div class="artist-info">
+                    <h3>${artist.name}</h3>
+                </div>
+            `;
+            card.onclick = () => openModal(index);
+            artistGrid.appendChild(card);
+        });
+
+        const modal = document.getElementById('artistModal');
+        
+        function openModal(index) {
+            const artist = artists[index];
+            document.getElementById('modalName').innerText = artist.name;
+            document.getElementById('modalBio').innerText = artist.bio;
+            document.getElementById('videoArea').innerHTML = `
+                <iframe src="https://www.youtube.com/embed/${artist.songId}?autoplay=1" 
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+            `;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.getElementById('videoArea').innerHTML = ""; 
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+    </script>
+</body>
+</html>
